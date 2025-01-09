@@ -1,31 +1,36 @@
-import pandas as pd
-import pandas as pd
-import numpy as np
-from sklearn.preprocessing import LabelEncoder
+# --- Data Handling & Manipulation ---
 import pandas as pd
 import numpy as np
-from sklearn.cluster import KMeans
-from sklearn.preprocessing import OneHotEncoder
-import pandas as pd
-import numpy as np
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
+
+# --- Data Preprocessing ---
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.model_selection import train_test_split, cross_val_score, KFold, GridSearchCV
+
+# --- Machine Learning Models ---
+from sklearn.cluster import KMeans
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-from sklearn.metrics import classification_report, mean_squared_error, r2_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.multiclass import OneVsRestClassifier
-from xgboost import XGBRegressor, XGBClassifier
+from xgboost import XGBRegressor, XGBClassifier  # Assuming xgboost is installed
 from lightgbm import LGBMRegressor, LGBMClassifier
+
+# --- Model Selection & Evaluation ---
+from sklearn.model_selection import train_test_split, cross_val_score, KFold, GridSearchCV, RandomizedSearchCV
+from sklearn.metrics import mean_squared_error, r2_score, classification_report, confusion_matrix, accuracy_score
+
+# --- Visualization ---
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# --- Utility ---
 from sklearn.pipeline import Pipeline
 from scipy.stats import randint
-from sklearn.model_selection import train_test_split, RandomizedSearchCV
+
+#EDA and PREPROCESSING
 
 
-df = 'sampled_crime_data.csv'
+df = pd.read_csv(r"C:\Users\hp\Downloads\Crime_Data_from_2020_to_Present.csv") #import dataset Crime_Data_from_2020_to_Present.csv
 df.info()
 df.isnull().sum() #assesstment of empty cells
 #we do not know/or we do not whant  some columns be presented in the dataset although some of them are to certine extend clear what they about
@@ -94,14 +99,14 @@ df.info()
 
 
 
-# 1. Clustering with KMeans
+# Clustering with KMeans
 n_clusters = 20  # Number of clusters you want
 kmeans = KMeans(n_clusters=n_clusters, random_state=42)
 df['Location_Cluster'] = kmeans.fit_predict(df[['LAT', 'LON']])
 
-# 2. Representing clusters in the DataFrame
+#  Representing clusters in the DataFrame
 
-# a) One column with cluster labels (recommended)
+# a) One column with cluster labels 
 print("One column with cluster labels:")
 print(df.head())
 #lets get rid of lon and lat 
@@ -110,18 +115,8 @@ df.isnull().sum() #assesstment of empty cells again
 df.info()
 df=df.drop(['TIME OCC'], axis=1)
 df.info()
-import matplotlib.pyplot as plt
-import seaborn as sns
-from xgboost import XGBClassifier
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay, accuracy_score
-import numpy as np
-import seaborn as sns
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import mean_squared_error, r2_score, confusion_matrix, classification_report
-import pandas as pd
+
+
 
 sample_df = df.sample(5000, random_state=42)
 # Data preprocessing
@@ -157,6 +152,7 @@ plt.figure(figsize=(12, 10))
 corr_matrix = X_encoded.corr()
 sns.heatmap(corr_matrix, annot=False, cmap='coolwarm', cbar=True)
 plt.title('Feature Correlation Matrix')
+plt.savefig('correlation_matrix.png', dpi=300, bbox_inches='tight')
 plt.show()
 
 # Model performance
@@ -170,6 +166,7 @@ sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
 plt.title('Confusion Matrix')
 plt.xlabel('Predicted')
 plt.ylabel('Actual')
+plt.savefig('confusion_matrix.png', dpi=300, bbox_inches='tight')
 plt.show()
 
 # Classification Report
@@ -183,4 +180,5 @@ if hasattr(model, 'feature_importances_'):
     top_features.plot(kind='barh', figsize=(8, 5), color='teal')
     plt.title('Top 10 Feature Importances')
     plt.xlabel('Importance Score')
+    plt.savefig('feature_importances.png', dpi=300, bbox_inches='tight')
     plt.show()
