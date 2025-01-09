@@ -1,10 +1,10 @@
-
 pip>=20.2
-seaborn
+streamlit
 pandas
 numpy
+seaborn
+matplotlib
 scikit-learn
 xgboost
 lightgbm
-catboost
-catboost==1.1.1
+catboost==1.1.1  # Adjust version if necessary
