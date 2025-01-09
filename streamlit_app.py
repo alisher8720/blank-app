@@ -37,7 +37,7 @@ from scipy.sparse import csr_matrix
 
 #EDA
 
-df = pd.read_csv(r"C:\Users\hp\Downloads\Crime_Data_from_2020_to_Present.csv") #import dataset Crime_Data_from_2020_to_Present.csv
+df = 'sampled_crime_data.csv' #import dataset Crime_Data_from_2020_to_Present.csv
 df.info()
 df.isnull().sum() #assesstment of empty cells
 #we do not know/or we do not whant  some columns be presented in the dataset although some of them are to certine extend clear what they about
