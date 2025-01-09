@@ -1,3 +1,5 @@
+
+pip>=20.2
 seaborn
 pandas
 numpy
